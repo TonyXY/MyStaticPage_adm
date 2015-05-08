@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- ------------------------------------------------------------------
+***********************************************************************
+开发人员书写规范:
+1.所有缩进都用 TAB， 而不是空格。
+2.非必要，禁止用行内样式例如 <div style="display:block"> 
+浏览器兼容：
+	IE8+
+	FireFox
+	Webkit内核浏览器:
+		Chrome,
+		Opear(WebKit版),
+		360浏览器(7.0+),
+		360急速浏览器,
+		搜狗浏览器,
+		115浏览器,
+		UC桌面浏览器,
+		枫树浏览器,
+		Safari 5.1+
+		Safari 7+ (Mac OS)
+注:由于国内IE6-7份额已经非常低，基本是测试人员跟一些非常旧的政府机构，所以不做兼容。
+***********************************************************************
+------------------------------------------------------------------- -->
+	<!-- Basic Page Needs
+	================================================== -->
+	<meta charset="utf-8">
+	<title>Title</title>
+	<meta name="description" content="">
+	<meta name="author" content="xxx">
+	<!-- 让IE浏览器用最高级内核渲染页面 还有用 Chrome 框架的页面用webkit 内核
+	================================================== -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<!-- IOS6全屏 Chrome高版本全屏
+	================================================== -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes"> 
+	<!-- 通过百度手机打开网页时，百度可能会对你的网页进行转码，脱下你的衣服，往你的身上贴狗皮膏药的广告，为此可在 head 内添加 -->
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<!-- 让360双核浏览器用webkit内核渲染页面
+	================================================== -->
+	<meta name="renderer" content="webkit">
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<!-- !!!注意 minimal-ui 是IOS7.1的新属性，最小化浏览器UI，但是在iOS8.1突然被取消 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<meta name="format-detection"  content="telphone=no, email=no" /><!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><!-- 设置状态栏的背景颜色，只有在 "apple-mobile-web-app-capable" content="yes" 时生效 -->
+	<!-- default 默认值。
+	black 状态栏背景是黑色。
+	black-translucent 状态栏背景是黑色半透明。 如果设置为 default 或 black ,网页内容从状态栏底部开始。 如果设置为 black-translucent ,网页内容充满整个屏幕，顶部会被状态栏遮挡。 -->
+	<!-- CSS
+	================================================== -->
+	<link href="css/reset.css" rel="stylesheet" type="text/css">
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="favicon.ico" >
+	<!-- Android 主屏图标
+	================================================== -->	
+	<link rel="icon" sizes="196x196" href="touch-icon.png">
+	<!-- IOS 主屏图标
+	================================================== -->
+	<link rel="apple-touch-icon" href="touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+</head>
+<body>
+<div class="container">
+<!-- Everything started here -->
+hello
+</div>
+</body>
+<!-- Javascript with AMD 
+	ADM开发DEMO 不采取AMD开发请自行去掉
+================================================== -->
+<script src="lib/require.js" data-main="js/main" ></script>
+</html>
