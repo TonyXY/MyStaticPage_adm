@@ -95,6 +95,15 @@ grunt bundle
 
 ####Grunt配置
 
+#####配置server&&实时预览
+使用
+
+````
+grunt serve
+````
+
+自动打开浏览器访问 http://localhost:9000，并监听html/css/js/image的修改并实时预览
+
 ######CSS编译&&压缩
 
 对于`Sass`可自动编译和纠错，使用`cssmin`对文件进行压缩，可有效减少文件大小.

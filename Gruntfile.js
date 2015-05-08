@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+    require('load-grunt-tasks')(grunt); //加载所有的任务
     require('time-grunt')(grunt); //Grunt处理任务进度条提示
 
     grunt.initConfig({
@@ -12,8 +13,24 @@ module.exports = function(grunt) {
         },
         buildType: 'Build',
         pkg: grunt.file.readJSON('package.json'),
-        archive_name: grunt.option('name') || 'MyStaticPage项目名称', //此处可根据自己的需求修改
+        archive_name: grunt.option('name') || 'MyStaticPage_adm项目名称', //此处可根据自己的需求修改
 
+        //配置server
+        connect: {
+            options: {
+                port: 9000,
+                hostname: 'localhost', //默认就是这个值，可配置为本机某个 IP，localhost 或域名
+                livereload: 35729 //声明给 watch 监听的端口
+            },
+            server: {
+                options: {
+                    open: true, //自动打开网页 http://
+                    base: [
+                        '' //主目录
+                    ]
+                }
+            }
+        },
         //清理掉开发时才需要的文件
         clean: {
             pre: ['build/'], //删除掉先前的开发文件
@@ -66,13 +83,13 @@ module.exports = function(grunt) {
                 dest: ''
             }
         },
-
+        //复制文件
         copy: {
             main: {
                 files: [{
                     expand: true,
                     cwd: 'assets',
-                    src: [ '**' ],
+                    src: ['**'],
                     dest: 'build/dist/'
                 }, {
                     expand: true,
@@ -80,12 +97,12 @@ module.exports = function(grunt) {
                     dest: 'build/dist/'
                 }, {
                     expand: true,
-                    src: ['*', '!.gitignore', '!.DS_Store', '!Gruntfile.js', '!package.json', '!node_modules/**','!images/**','!lib/**','!assets/**', '!go.sh', '!.ftppass', '!<%= archive_name %>*.zip'],
+                    src: ['*', '!.gitignore', '!.DS_Store', '!Gruntfile.js', '!package.json', '!node_modules/**', '!images/**', '!lib/**', '!assets/**', '!go.sh', '!.ftppass', '!<%= archive_name %>*.zip'],
                     dest: 'build/dist/'
                 }, {
-                //source
+                    //source
                     expand: true,
-                    src: [ 'css/**' ],
+                    src: ['css/**'],
                     dest: 'build/source/'
                 }, {
                     expand: true,
@@ -101,16 +118,16 @@ module.exports = function(grunt) {
                     dest: 'build/source/'
                 }, {
                     expand: true,
-                    src: ['*', '!.gitignore', '!.DS_Store', '!Gruntfile.js', '!package.json', '!node_modules/**','!images/**','!lib/**','!assets/**', '!go.sh', '!.ftppass', '!<%= archive_name %>*.zip'],
+                    src: ['*', '!.gitignore', '!.DS_Store', '!Gruntfile.js', '!package.json', '!node_modules/**', '!images/**', '!lib/**', '!assets/**', '!go.sh', '!.ftppass', '!<%= archive_name %>*.zip'],
                     dest: 'build/source/'
-                } ]
+                }]
             },
 
             assets: {
-                files: [ {
+                files: [{
                     //source
                     expand: true,
-                    src: [ 'css/**' ],
+                    src: ['css/**'],
                     dest: 'assets/'
                 }, {
                     expand: true,
@@ -145,7 +162,6 @@ module.exports = function(grunt) {
                 }]
             }
         },
-
         //Sass 预处理
         sass: {
             admin: {
@@ -163,7 +179,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
         //压缩 css
         cssmin: {
             options: {
@@ -176,14 +191,14 @@ module.exports = function(grunt) {
                     '* Updated : <%= grunt.template.today() %> \n' +
                     '*/ \n'
             },
-            minify: { 
-                expand: true, 
-                cwd:  '<%= paths.css %>/', src: ['*\*/\*.css', '!*.min.css'], 
-                dest: '<%= paths.assets %>/css/', 
-                ext: '.css' 
+            minify: {
+                expand: true,
+                cwd: '<%= paths.css %>/',
+                src: ['*\*/\*.css', '!*.min.css'],
+                dest: '<%= paths.assets %>/css/',
+                ext: '.css'
             }
         },
-
         // 格式化和清理html文件
         htmlmin: {
             dist: {
@@ -198,7 +213,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
         //优化图片 请参考  https://github.com/JamieMason/ImageOptim-CLI
         imageoptim: {
             myTask: {
@@ -210,7 +224,6 @@ module.exports = function(grunt) {
                 src: ['<%= paths.assets %>/images', '<%= paths.assets %>/images']
             }
         },
-
         //监听变化 默认grunt watch 监测所有开发文件变化
         watch: {
             options: {
@@ -221,6 +234,11 @@ module.exports = function(grunt) {
                     grunt.log.writeln('编译完成,用时' + time + 'ms ' + (new Date()).toString());
                     grunt.log.writeln('Wating for more changes...');
                 }
+            },
+            livereload: {
+                files: [ //下面文件的改变就会实时刷新网页
+                    '<%= paths.css %>/**/*.css', '<%= paths.js %>/**/*.js', 'images/**', '*.html'
+                ]
             },
             //css
             sass: {
@@ -237,12 +255,10 @@ module.exports = function(grunt) {
             },
             //若不使用Sass，可通过grunt watch:base 只监测style.css和js文件
             base: {
-                files: ['<%= paths.css %>/**/*.css', '<%= paths.js %>/**/*.js', 'img/**'],
-                tasks: ['copy:assets','cssmin', 'uglify']
+                files: ['<%= paths.css %>/**/*.css', '<%= paths.js %>/**/*.js', 'images/**'],
+                tasks: ['copy:assets', 'cssmin', 'uglify']
             }
-
         },
-
         //发布到FTP服务器 : 请注意密码安全，ftp的帐号密码保存在主目录 .ftppass 文件
         'ftp-deploy': {
             build: {
@@ -256,7 +272,6 @@ module.exports = function(grunt) {
                 exclusions: ['path/to/source/folder/**/.DS_Store', 'path/to/source/folder/**/Thumbs.db', 'path/to/dist/tmp']
             }
         },
-
         'sftp-deploy': {
             build: {
                 auth: {
@@ -273,7 +288,6 @@ module.exports = function(grunt) {
                 progress: true
             }
         }
-
     });
 
     //输出进度日志
@@ -294,15 +308,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-closure-compiler'); //增加谷歌高级压缩
     grunt.loadNpmTasks('grunt-imageoptim');
     /*下方为配置的常用 grunt 命令*/
-    grunt.registerTask('default', ['copy:assets','cssmin', 'uglify']);
+    grunt.registerTask('default', ['copy:assets', 'cssmin', 'uglify']);
     grunt.registerTask('styles', ['sass:admin', 'cssmin']);
     //执行 grunt bundle --最终输出的文件 < name-生成日期.zip > 文件
-    grunt.registerTask('bundle', ['clean:pre','copy:assets','cssmin', 'uglify', 'copy:main', 'copy:archive', 'clean:post', 'htmlmin', 'compress', ]);
+    grunt.registerTask('bundle', ['clean:pre', 'copy:assets', 'cssmin', 'uglify', 'copy:main', 'copy:archive', 'clean:post', 'htmlmin', 'compress', ]);
     //执行 grunt publish 可以直接上传项目文件到指定服务器FTP目录
     grunt.registerTask('publish', ['ftp-deploy']);
     //执行 grunt ssh 可以利用 ssh 上传到服务器
     grunt.registerTask('ssh', ['sftp-deploy']);
     //执行 grunt gcc 可进行谷歌压缩
     grunt.registerTask('gcc', ['closure-compiler']);
-
+    //启动web服务器，实施预览
+    grunt.registerTask('serve', ['connect:server', 'watch:livereload']);
 };
